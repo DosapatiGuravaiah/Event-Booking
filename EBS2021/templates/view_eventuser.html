@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Event</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.bootstrap4.min.css">
+    <style>
+        body {
+            background-image: url('https://img.freepik.com/premium-photo/event-exhibition-hall-background-with-empty-modern-space-front-view-backdrop-3d-rendering_530396-126.jpg?w=360');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: lightyellow; /* Fallback color */
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Shadow effect */
+            margin-top: 50px;
+        }
+
+        h2 {
+            color: red;
+            font-weight: bold;
+            font-family: 'Arial', sans-serif; /* Change the font to Arial */
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d; /* Gray button */
+            color: #fff;
+            border: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: #545b62; /* Darker gray on hover */
+        }
+    </style>
+</head>
+<body>
+    {% include 'navigation.html' %}
+    <div class="container">
+        <h2>View Event</h2>
+        <table class="table table-hover table-responsive-lg" id="example">
+            <thead>
+                <tr>
+                    <th>Event Name</th>
+                    <th>Image</th>
+                    <th>Category</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Venue</th>
+                    <th>View Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in event %}
+                <tr>
+                    <td>{{ i.eventname }}</td>
+                    <td><img src="{{ i.image.url }}" style="width: 70px; height: 70px; border-radius: 50%;"></td>
+                    <td>{{ i.category }}</td>
+                    <td>{{ i.startdate }}</td>
+                    <td>{{ i.enddate }}</td>
+                    <td>{{ i.venue }}</td>
+                    <td><a href="{% url 'view_details' i.id %}" class="btn btn-secondary">Details</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdfHtml5'
+                ]
+            });
+        });
+    </script>
+</body>
+</html>

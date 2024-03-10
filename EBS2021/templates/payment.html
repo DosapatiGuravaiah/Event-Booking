@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.bootstrap4.min.css">
+    <style>
+        body {
+            background-image: url('https://png.pngtree.com/background/20230716/original/pngtree-conceptual-3d-render-of-credit-card-payment-picture-image_4236780.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: rgb(153, 153, 102); /* Fallback color */
+        }
+
+        .container {
+
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 0px rgba(0, 0, 0, 0.2);
+            margin-top: 50px;
+        }
+
+        .panel-heading img {
+            min-width: 180px;
+        }
+
+        .btn-success {
+            background-color: #5cb85c; /* Green button */
+            color: #fff; /* White text color */
+            border: none;
+        }
+
+        .btn-success:hover {
+            background-color: #4cae4c; /* Darker green on hover */
+        }
+    </style>
+</head>
+<body>
+    {% include 'navigation.html' %}
+
+    {% if error == "no" %}
+    <script>
+        alert("Booking confirmed");
+        window.location = ("{% url 'view_mybooking' %}")
+    </script>
+    {% endif %}
+
+    {% if error == "yes" %}
+    <script>
+        alert("Something went wrong, Try again..");
+    </script>
+    {% endif %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-4 col-md-4"></div>
+            <div class="col-xs-4 col-md-4">
+                <div class="panel panel-default credit-card-box">
+                    <div class="panel-heading display-table">
+                        <div class="row display-tr">
+                            <h3 class="panel-title display-td">Payment Details</h3>
+                            <div class="display-td">
+                                <img class="img-responsive pull-right" src="{% static 'img/atm3.jpg' %}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="cardNumber">CARD NUMBER</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="cardnumber" placeholder="Valid Card Number" autocomplete="cc-number" autofocus required />
+                                            <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-7 col-md-7">
+                                    <div class="form-group">
+                                        <label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
+                                        <input type="text" class="form-control" name="cardex" placeholder="MM / YY" autocomplete="cc-exp" required />
+                                    </div>
+                                </div>
+                                <div class="col-xs-5 col-md-5 pull-right">
+                                    <div class="form-group">
+                                        <label for="cardCVC">CVV CODE</label>
+                                        <input type="text" class="form-control" name="cvv" placeholder="CVV" autocomplete="cc-csc" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="couponCode">Amount In Rs.</label>
+                                        <input type="text" class="form-control" value="{{booking.total}}" name="amount" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <input type="submit" class="btn btn-success btn-lg btn-block" name="payment" value="Payment">
+                                </div>
+                            </div>
+                            <div class="row" style="display:none;">
+                                <div class="col-xs-12">
+                                    <p class="payment-errors"></p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/1.2.3/jquery.payment.min.js"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+    <script>
+        // JavaScript code for payment functionality can go here
+    </script>
+</body>
+</html>
